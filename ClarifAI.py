@@ -1,6 +1,4 @@
 import streamlit as st
-import streamlit_lottie as st_lottie
-import requests
 import pandas as pd
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import service_pb2_grpc
