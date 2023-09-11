@@ -1,24 +1,13 @@
 import streamlit as st
 import pandas as pd
+import pandas_profiling
+from streamlit_pandas_profiling import st_profile_report
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import service_pb2_grpc
 from clarifai_grpc.grpc.api import service_pb2, resources_pb2
 from clarifai_grpc.grpc.api.status import status_code_pb2
 
 stub = service_pb2_grpc.V2Stub(ClarifaiChannel.get_grpc_channel())
-
-page_bg_img = """
-<style>
-[data-testid="stAppViewContainer"] {
-background-color: #e5e5f7;
-opacity: 0.8;
-background-image:  linear-gradient(30deg, #8bbf6a 12%, transparent 12.5%, transparent 87%, #8bbf6a 87.5%, #8bbf6a), linear-gradient(150deg, #8bbf6a 12%, transparent 12.5%, transparent 87%, #8bbf6a 87.5%, #8bbf6a), linear-gradient(30deg, #8bbf6a 12%, transparent 12.5%, transparent 87%, #8bbf6a 87.5%, #8bbf6a), linear-gradient(150deg, #8bbf6a 12%, transparent 12.5%, transparent 87%, #8bbf6a 87.5%, #8bbf6a), linear-gradient(60deg, #8bbf6a77 25%, transparent 25.5%, transparent 75%, #8bbf6a77 75%, #8bbf6a77), linear-gradient(60deg, #8bbf6a77 25%, transparent 25.5%, transparent 75%, #8bbf6a77 75%, #8bbf6a77);
-background-size: 20px 35px;
-background-position: 0 0, 0 0, 10px 18px, 10px 18px, 0 0, 10px 18px;
-}
-</style>
-"""
-#st.markdown(page_bg_img, unsafe_allow_html=True)
 
 st.title('Industry Standard :blue[Image Classification AI].')
 st.subheader('This program makes use of the ClarifAI API developed by :red[Matthew Zeiler] to help classify objects in image data and other features, those features can be accesed through the AI use cases.')
@@ -77,6 +66,8 @@ if use_case == 'Image Recognition':
             })
 
             st.table(df)
+            pr = df.profile_report()
+            st_profile_report(pr)
 
 if use_case == 'Image Moderation':
     st.sidebar.image('moder.jpg')
@@ -127,5 +118,6 @@ if use_case == 'Image Moderation':
             })
 
             st.table(df)
-
+            pr = df.profile_report()
+            st_profile_report(pr)
  
